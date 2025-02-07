@@ -1,8 +1,8 @@
 {
-  "name": "wstih",
-  "version": "1.0.2.4",
+  "name": "wskm",
+  "version": "1.0.1",
   "private": true,
-  "homepage": "https://apsiteshub.github.io/wstih-site/",
+  "homepage": "https://apsiteshub.github.io/wskm-site/",
   "dependencies": {
     "@emoji-mart/data": "^1.1.2",
     "@emoji-mart/react": "^1.1.1",

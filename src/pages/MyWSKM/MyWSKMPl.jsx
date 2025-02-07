@@ -1,6 +1,11 @@
+import logo from '../../img/svg/logoNew.png';
 import axios from 'axios';
 import { FormBtnText, Label } from 'components/LeadForm/LeadForm.styled';
-import { LoginFormText, StreamSection } from 'components/Stream/Stream.styled';
+import {
+  LoginFormText,
+  LoginLogo,
+  StreamSection,
+} from 'components/Stream/Stream.styled';
 import { Formik } from 'formik';
 import {
   AdminFormBtn,
@@ -17,8 +22,8 @@ import {
   LoginErrorNote,
   PanelHideLeftSwitch,
   PanelHideRightSwitch,
-} from './MyWSTiHPanel/MyWSTiHPanel.styled';
-import { MyWSTiHPanelPl } from './MyWSTiHPanel/MyWSTiHPanelPl';
+} from './MyWSKMPanel/MyWSKMPanel.styled';
+import { MyWSKMPanelPl } from './MyWSKMPanel/MyWSKMPanelPl';
 
 const monthly = [
   { name: 'Adam Nowak', points: 327 },
@@ -175,7 +180,7 @@ const pltimetable = [
   },
 ];
 
-const MyWSTiHPl = () => {
+const MyWSKMPl = () => {
   const [isUserLogged, setIsUserLogged] = useState(false);
   const [lessons, setLessons] = useState(false);
   const [points, setPoints] = useState({});
@@ -202,7 +207,7 @@ const MyWSTiHPl = () => {
   };
 
   useEffect(() => {
-    document.title = 'My WSTiH | WSTiH';
+    document.title = 'My WSKM | WSKM';
 
     const refreshToken = async () => {
       console.log('token refresher');
@@ -343,6 +348,7 @@ const MyWSTiHPl = () => {
           validationSchema={loginSchema}
         >
           <LoginForm>
+            <LoginLogo src={logo} alt="WSKM logo" />
             <LoginFormText>
               Dzień dobry!
               <br />
@@ -381,7 +387,7 @@ const MyWSTiHPl = () => {
       ) : (
         <>
           {Object.values(points).length > 0 && (
-            <MyWSTiHPanelPl
+            <MyWSKMPanelPl
               lessons={lessons}
               user={user}
               points={points}
@@ -410,4 +416,4 @@ const MyWSTiHPl = () => {
   );
 };
 
-export default MyWSTiHPl;
+export default MyWSKMPl;

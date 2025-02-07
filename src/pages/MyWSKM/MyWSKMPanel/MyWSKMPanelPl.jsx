@@ -12,7 +12,7 @@ import {
   PanelHideSwitch,
   SearchBtnIcon,
   TimetableBtnIcon,
-} from './MyWSTiHPanelDemo.styled';
+} from './MyWSKMPanelDemo.styled';
 
 import { MyAPStudentChartPl } from 'pages/TeacherPage/StudentChart/MyAPStudentChartPl';
 import { AttendancePl } from '../Attendance/AttendancePl';
@@ -22,7 +22,7 @@ import { TimetablePl } from '../Timetable.jsx/TimetablePl';
 
 axios.defaults.baseURL = 'https://ap-server-8qi1.onrender.com';
 
-export const MyWSTiHPanelPl = ({
+export const MyWSKMPanelPl = ({
   lessons,
   user,
   language,

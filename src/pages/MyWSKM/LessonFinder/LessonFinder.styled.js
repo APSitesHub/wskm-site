@@ -1,6 +1,9 @@
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
-import { FaqSearchBtnIcon, SearchBtnIcon } from '../MyWSTiHPanel/MyAPPanel.styled';
+import {
+  FaqSearchBtnIcon,
+  SearchBtnIcon,
+} from '../MyWSKMPanel/MyAPPanel.styled';
 import { ReactComponent as BoxSwitchDown } from '../../../img/svg/faq-arrow-down.svg';
 import { ReactComponent as BoxSwitchUp } from '../../../img/svg/faq-arrow-up.svg';
 import { ReactComponent as ExternalLink } from '../../../img/svg/externalLink.svg';

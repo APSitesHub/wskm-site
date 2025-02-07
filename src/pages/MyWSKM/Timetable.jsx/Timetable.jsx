@@ -25,20 +25,20 @@ import {
 
 export const Timetable = ({ user, timetable }) => {
   const [isAnimated, setIsAnimated] = useState(false);
-  const [marathonId, setMarathonId] = useState('83530');
+  const [marathonId, setMarathonId] = useState('83751');
   const [personalTimetable, setPersonalTimetable] = useState(
     timetable.find(timeline => marathonId === timeline.marathon)
   );
 
   const changeTimetable = () => {
     setIsAnimated(true);
-    setMarathonId(marathonId => (marathonId === '83530' ? '83568' : '83530'));
+    setMarathonId(marathonId => (marathonId === '83751' ? '83752' : '83751'));
     setPersonalTimetable(
       personalTimetable =>
         (personalTimetable = timetable.find(timeline =>
-          marathonId === '83530'
-            ? '83568' === timeline.marathon
-            : '83530' === timeline.marathon
+          marathonId === '83751'
+            ? '83752' === timeline.marathon
+            : '83751' === timeline.marathon
         ))
     );
     setTimeout(() => {
@@ -47,9 +47,9 @@ export const Timetable = ({ user, timetable }) => {
   };
 
   const getLink = () => {
-    const baseStreamUrl = 'https://wstihwg.ap.education/lesson/';
+    const baseStreamUrl = 'https://wskm.ap.education/lesson/';
 
-    return marathonId === '83530'
+    return marathonId === '83751'
       ? baseStreamUrl + 'logistics'
       : baseStreamUrl + 'prep';
   };
@@ -86,7 +86,7 @@ export const Timetable = ({ user, timetable }) => {
               <TimetableLessonType
                 className={isAnimated ? 'animated' : undefined}
               >
-                {marathonId === '83530' ? 'Logistics' : 'Preparation Course'}
+                {marathonId === '83751' ? 'Logistics' : 'Preparation Course'}
               </TimetableLessonType>
               <TimetableLessonLink href={link} target="_blank">
                 <TimetableLessonLinkText>Go to lesson</TimetableLessonLinkText>

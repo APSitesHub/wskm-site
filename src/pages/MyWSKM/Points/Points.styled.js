@@ -137,7 +137,7 @@ export const PointsUser = styled(PointsTableHead)`
   height: 36px;
   border-radius: 7px;
   flex-shrink: 0;
-  background-color: var(--accent-color);
+  background-color: var(--accent-transparent-color);
 
   margin-bottom: 4px;
 `;

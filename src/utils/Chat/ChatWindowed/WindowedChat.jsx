@@ -20,7 +20,7 @@ export const WindowedChat = () => {
   const socketRef = useRef(null);
 
   useEffect(() => {
-    document.title = `WSTiH ${location
+    document.title = `WSKM ${location
       .replace('/lesson/', '')[0]
       .toUpperCase()}${location
       .replace('/lesson/', '')
