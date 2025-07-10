@@ -2,10 +2,11 @@
   "name": "wskm",
   "version": "1.0.1.1",
   "private": true,
-  "homepage": "https://apsiteshub.github.io/wskm-site/",
+  "homepage": "https://wskm.ap.education/",
   "dependencies": {
     "@emoji-mart/data": "^1.1.2",
     "@emoji-mart/react": "^1.1.1",
+    "@jitsi/react-sdk": "^1.4.4",
     "@mui/base": "^5.0.0-beta.66",
     "@nivo/radar": "^0.88.0",
     "@react-google-maps/api": "^2.19.2",

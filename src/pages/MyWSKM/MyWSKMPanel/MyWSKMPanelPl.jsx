@@ -15,7 +15,7 @@ import {
 } from './MyWSKMPanelDemo.styled';
 
 import { MyAPStudentChartPl } from 'pages/TeacherPage/StudentChart/MyAPStudentChartPl';
-import { AttendancePl } from '../Attendance/AttendancePl';
+import { Attendance } from '../Attendance/Attendance';
 import { LessonFinderPl } from '../LessonFinder/LessonFinderPl';
 import { PointsPl } from '../Points/PointsPl';
 import { TimetablePl } from '../Timetable.jsx/TimetablePl';
@@ -386,7 +386,7 @@ export const MyWSKMPanelPl = ({
         />
       )}
       {isCalendarShown && (
-        <AttendancePl
+        <Attendance
           user={user}
           personalLessonsDays={personalLessonsDays}
           isMultipleCourses={isMultipleCourses}

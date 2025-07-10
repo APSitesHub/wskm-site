@@ -20,6 +20,12 @@ const MyWSKMPl = lazy(() =>
   import(/* webpackChunkName: "My WSKM Demo Page" */ '../pages/MyWSKM/MyWSKMPl')
 );
 
+const UniUserAdminPanel = lazy(() =>
+  import(
+    /* webpackChunkName: "Polish University Users Admin Panel page" */ '../pages/Streams/UserAdminPanel/UniUserAdminPanel'
+  )
+);
+
 const NotFound = lazy(() =>
   import(/* webpackChunkName: "Not Found" */ '../pages/NotFound/NotFound')
 );
@@ -34,10 +40,14 @@ export const App = () => {
       />
       <Suspense fallback={Loader} noindex={true}>
         <Routes noindex={true}>
-          <Route path="/" element={<MyWSKMPl />} noindex={true}>
-            <Route path="*" element={<NotFound />} noindex={true} />
-          </Route>
-          <Route path="/demo" element={<MyWSKM />} noindex={true} />
+          <Route index path="/" element={<MyWSKM />} noindex={true}></Route>
+          <Route
+            path="admin"
+            element={<UniUserAdminPanel uni={'WSKM'} lang={'pl'} />}
+            noindex={true}
+          />
+          <Route path="*" element={<NotFound />} noindex={true} />
+          <Route path="/demo" element={<MyWSKMPl />} noindex={true} />
           <Route path="lesson" element={<Streams />} noindex={true}>
             <Route path="logistics" element={<Stream />} noindex={true} />
             <Route
