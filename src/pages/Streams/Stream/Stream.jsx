@@ -25,7 +25,7 @@ import {
 } from './Stream.styled';
 import { ColorRing } from 'react-loader-spinner';
 
-const roomID = 'c57a82b4-188e-4ca3-bb83-8a97c1a6c310';
+const roomID = '84145265-7ed7-4d73-ab30-4dd2a01c537d';
 const supportedLanguages = ['uk', 'en', 'pl', 'de'];
 const browserLanguage = navigator.language.split('-')[0];
 
@@ -69,7 +69,7 @@ const Stream = () => {
     .trimEnd()
     .toLowerCase()}_${location.replace('/lesson/', '')}`;
 
-  console.log(room);
+  console.log(72, room);
 
   useEffect(() => {
     document.title = `Lesson Online | WSKM | ${location
@@ -300,7 +300,7 @@ const Stream = () => {
                     }}
                   >
                     <JitsiMeeting
-                      domain="videohost.ap.education"
+                      domain="dev2.ap.education"
                       roomName={roomID}
                       configOverwrite={{
                         disableTileEnlargement: true,
