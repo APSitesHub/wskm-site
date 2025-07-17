@@ -33,8 +33,8 @@ import {
 } from './LessonResultsPanel.styled';
 import { PointsFormSelect } from './LessonResultsPanel.styled';
 
-// axios.defaults.baseURL = 'https://ap-server-8qi1.onrender.com';
-axios.defaults.baseURL = 'http://localhost:5000';
+axios.defaults.baseURL = 'https://ap-server-8qi1.onrender.com';
+// axios.defaults.baseURL = 'http://localhost:5000';
 
 const setAuthToken = token => {
   axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
@@ -163,7 +163,9 @@ const LessonResultsPanel = () => {
                 />
                 <AdminInputNote component="p" name="password" />
               </Label>
-              <AdminFormBtn type="submit">Залогінитись</AdminFormBtn>
+              <AdminFormBtn type="submit">
+                <FormBtnText>Zaloguj się</FormBtnText>
+              </AdminFormBtn>
             </LoginForm>
           </Formik>
         )}
@@ -244,14 +246,14 @@ const LessonResultsPanel = () => {
                   <thead>
                     <UserDBRow>
                       <UserHeadCell>№</UserHeadCell>
-                      <UserHeadCell>Ім'я</UserHeadCell>
+                      <UserHeadCell>Nazwisko i imię</UserHeadCell>
                       {selectedLesson &&
                         selectedLesson.questions.map((question, index) => (
                           <UserHeadCell key={question._id}>
                             q_{index + 1}
                           </UserHeadCell>
                         ))}
-                      <UserHeadCell>Загалом</UserHeadCell>
+                      <UserHeadCell>Ogółem</UserHeadCell>
                     </UserDBRow>
                   </thead>
                   <tbody>

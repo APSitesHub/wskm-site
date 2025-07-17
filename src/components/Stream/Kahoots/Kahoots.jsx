@@ -213,7 +213,7 @@ export const Kahoots = ({
           </ClipBoardFormText>
           <ClipBoardInput
             name="username"
-            placeholder="Ім'я"
+            placeholder="Imię"
             defaultValue={localStorage.getItem('userName')}
             onChange={e => {
               if (e.target.value) {
