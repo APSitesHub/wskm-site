@@ -28,7 +28,7 @@ import { StudentInput } from 'components/StudentInput/StudentInput';
 import { StudentOptions } from 'components/StudentInput/StudentOptions';
 import { StudentTrueFalse } from 'components/StudentInput/StudentTrueFalse';
 
-const roomID = 'c57a82b4-188e-4ca3-bb83-8a97c1a6c310';
+const roomID = '84145265-7ed7-4d73-ab30-4dd2a01c537d';
 const supportedLanguages = ['uk', 'en', 'pl', 'de'];
 const browserLanguage = navigator.language.split('-')[0];
 
@@ -86,10 +86,12 @@ const Stream = () => {
     .trimEnd()
     .toLowerCase()}_${location.replace('/lesson/', '')}`;
 
+  console.log(89, room);
+
   useEffect(() => {
     document.title = `Lesson Online | WSKM | ${location
-      .replace('/lesson/', '')[0]
-      .toUpperCase()}${location.replace('/lesson/', '').slice(1)}`;
+      .replace('/lesson/', '')
+      .toUpperCase()}`;
 
     socketRef.current = io('https://ap-chat-server.onrender.com/');
 
@@ -346,7 +348,7 @@ const Stream = () => {
                     }}
                   >
                     <JitsiMeeting
-                      domain="videohost.ap.education"
+                      domain="dev2.ap.education"
                       roomName={roomID}
                       configOverwrite={{
                         disableTileEnlargement: true,

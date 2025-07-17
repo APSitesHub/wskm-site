@@ -26,6 +26,12 @@ const UniUserAdminPanel = lazy(() =>
   )
 );
 
+const PointsAdminPanel = lazy(() =>
+  import(
+    /* webpackChunkName: "Points Admin page" */ '../pages/Streams/AdminPanel/LessonResultsPanel'
+  )
+);
+
 const NotFound = lazy(() =>
   import(/* webpackChunkName: "Not Found" */ '../pages/NotFound/NotFound')
 );
@@ -46,17 +52,16 @@ export const App = () => {
             element={<UniUserAdminPanel uni={'WSKM'} lang={'pl'} />}
             noindex={true}
           />
+          <Route
+            path="admin-points"
+            element={<PointsAdminPanel />}
+            noindex={true}
+          />
           <Route path="*" element={<NotFound />} noindex={true} />
           <Route path="/demo" element={<MyWSKMPl />} noindex={true} />
           <Route path="lesson" element={<Streams />} noindex={true}>
             <Route path="cnc" element={<Stream />} noindex={true} />
-            <Route
-              path="cnc-chat"
-              element={<WindowedChat />}
-              noindex={true}
-            />
-            <Route path="prep" element={<Stream />} noindex={true} />
-            <Route path="prep-chat" element={<WindowedChat />} noindex={true} />
+            <Route path="cnc-chat" element={<WindowedChat />} noindex={true} />
           </Route>
         </Routes>
       </Suspense>
