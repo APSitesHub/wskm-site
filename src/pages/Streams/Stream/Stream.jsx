@@ -90,8 +90,8 @@ const Stream = () => {
 
   useEffect(() => {
     document.title = `Lesson Online | WSKM | ${location
-      .replace('/lesson/', '')[0]
-      .toUpperCase()}${location.replace('/lesson/', '').slice(1)}`;
+      .replace('/lesson/', '')
+      .toUpperCase()}`;
 
     socketRef.current = io('https://ap-chat-server.onrender.com/');
 
