@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useMemo } from 'react';
 import eyesImg from '../../../img/quiz/eyes.png';
 import { CalendarIcon } from '../Attendance/Attendance.styled';
 import {
@@ -9,8 +9,6 @@ import {
 import {
   TimetableBody,
   TimetableBox,
-  TimetableChangeCourseBtn,
-  TimetableChangeCourseBtnText,
   TimetableDaysCell,
   TimetableDaysItem,
   TimetableHead,
@@ -24,33 +22,18 @@ import {
 } from './Timetable.styled';
 
 export const Timetable = ({ user, timetable }) => {
-  const [isAnimated, setIsAnimated] = useState(false);
-  const [marathonId, setMarathonId] = useState('83751');
-  const [personalTimetable, setPersonalTimetable] = useState(
-    timetable.find(timeline => marathonId === timeline.marathon)
+  const personalTimetable = useMemo(
+    () => timetable.find(timeline => '85683' === timeline.marathon),
+    [timetable]
   );
 
-  const changeTimetable = () => {
-    setIsAnimated(true);
-    setMarathonId(marathonId => (marathonId === '83751' ? '83752' : '83751'));
-    setPersonalTimetable(
-      personalTimetable =>
-        (personalTimetable = timetable.find(timeline =>
-          marathonId === '83751'
-            ? '83752' === timeline.marathon
-            : '83751' === timeline.marathon
-        ))
-    );
-    setTimeout(() => {
-      setIsAnimated(false);
-    }, 3000);
-  };
+  console.log('personalTimetable', personalTimetable);
 
   const getLink = () => {
     const baseStreamUrl = 'https://wskm.ap.education/lesson/';
 
-    return marathonId === '83751'
-      ? baseStreamUrl + 'logistics'
+    return personalTimetable.marathon === '85683'
+      ? baseStreamUrl + 'cnc'
       : baseStreamUrl + 'prep';
   };
 
@@ -63,11 +46,6 @@ export const Timetable = ({ user, timetable }) => {
       <TimetableHeading>
         <CalendarIcon />
         Class schedule
-        <TimetableChangeCourseBtn onClick={changeTimetable}>
-          <TimetableChangeCourseBtnText>
-            Change course
-          </TimetableChangeCourseBtnText>
-        </TimetableChangeCourseBtn>
       </TimetableHeading>
       {!personalTimetable ? (
         <PointsPlaceHolder>
@@ -83,10 +61,8 @@ export const Timetable = ({ user, timetable }) => {
         <TimetableBody>
           <TimetableWebinars>
             <TimetableWebinarsHead>
-              <TimetableLessonType
-                className={isAnimated ? 'animated' : undefined}
-              >
-                {marathonId === '83751' ? 'Logistics' : 'Preparation Course'}
+              <TimetableLessonType>
+                CNC and Industrial Automation
               </TimetableLessonType>
               <TimetableLessonLink href={link} target="_blank">
                 <TimetableLessonLinkText>Go to lesson</TimetableLessonLinkText>
