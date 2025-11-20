@@ -1,9 +1,13 @@
+import { JitsiMeeting } from '@jitsi/react-sdk';
 import useSize from '@react-hook/size';
 import axios from 'axios';
+import { StudentInput } from 'components/StudentInput/StudentInput';
+import { StudentOptions } from 'components/StudentInput/StudentOptions';
+import { StudentTrueFalse } from 'components/StudentInput/StudentTrueFalse';
 import { useEffect, useRef, useState } from 'react';
+import { ColorRing } from 'react-loader-spinner';
 import { useLocation, useNavigate, useOutletContext } from 'react-router-dom';
 import { io } from 'socket.io-client';
-import { JitsiMeeting } from '@jitsi/react-sdk';
 import { Chat } from 'utils/Chat/Chat';
 import {
   BoxHideLeftSwitch,
@@ -21,12 +25,10 @@ import {
   GradientBackground,
   JitsiContainer,
   LargeText,
+  LinkText,
+  PlatformLink,
   PlayerWrapper,
 } from './Stream.styled';
-import { ColorRing } from 'react-loader-spinner';
-import { StudentInput } from 'components/StudentInput/StudentInput';
-import { StudentOptions } from 'components/StudentInput/StudentOptions';
-import { StudentTrueFalse } from 'components/StudentInput/StudentTrueFalse';
 
 const roomID = '84145265-7ed7-4d73-ab30-4dd2a01c537d';
 const supportedLanguages = ['uk', 'en', 'pl', 'de'];
@@ -80,11 +82,13 @@ const Stream = () => {
 
   const socketRef = useRef(null);
 
-  const room = `${document.title
-    .split('|')[1]
-    ?.trim()
-    .trimEnd()
-    .toLowerCase()}_${location.replace('/lesson/', '')}`;
+  console.log(85, document.title);
+
+  const room = `${
+    document.title.split('|').length > 1
+      ? document.title.split('|')[1]?.trim().trimEnd().toLowerCase()
+      : document.title.split(' ')[0]?.trim().trimEnd().toLowerCase()
+  }_${location.replace('/lesson/', '')}`;
 
   console.log(89, room);
 
@@ -291,6 +295,24 @@ const Stream = () => {
 
   return (
     <>
+      {links[room].includes('zoom.us') && (
+        <StreamPlaceHolder>
+          <StreamPlaceHolderText>
+            Hello! <br />
+            Today's lesson will take place on the Zoom platform! <br />
+            Please stay on this page while we redirect you to the lesson.
+          </StreamPlaceHolderText>
+          <PlatformLink
+            href={links[room]}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <LinkText>
+              Or try to join manually — just click on this text.
+            </LinkText>
+          </PlatformLink>
+        </StreamPlaceHolder>
+      )}
       {(links[room] === undefined || links[room][0] < 10) && !isLoading ? (
         <StreamPlaceHolder>
           <StreamPlaceHolderText>
@@ -298,6 +320,10 @@ const Stream = () => {
             Try again later.
           </StreamPlaceHolderText>
         </StreamPlaceHolder>
+      ) : links[room].includes('zoom.us') ? (
+        setTimeout(() => {
+          window.location.replace(links[room]);
+        }, 5000)
       ) : (
         <>
           <StreamSection
@@ -327,7 +353,7 @@ const Stream = () => {
                           flexWrap: 'wrap',
                         }}
                       >
-                        <LargeText>Завантаження</LargeText>
+                        <LargeText>Loading</LargeText>
                         <ColorRing
                           visible={true}
                           height="120"
@@ -339,7 +365,7 @@ const Stream = () => {
                         />
                       </div>
                     ) : (
-                      <LargeText>Викладача поки немає!</LargeText>
+                      <LargeText>Teacher is not available yet!</LargeText>
                     )}
                   </GradientBackground>
                   <JitsiContainer

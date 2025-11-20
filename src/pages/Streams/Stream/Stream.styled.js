@@ -35,3 +35,33 @@ export const LargeText = styled.p`
     font-size: 2rem;
   }
 `;
+
+export const PlatformLink = styled.a`
+  border-color: var(--secondary-color);
+  border-radius: 9px;
+  padding: 10px 14px;
+  background-color: transparent;
+  text-decoration: none;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  position: relative;
+
+  &:hover,
+  &:focus {
+    background-color: var(--main-transparent-color);
+  }
+`;
+
+export const LinkText = styled.span`
+  font-size: 24px;
+  font-weight: 600;
+  line-height: 1.45;
+  text-decoration: underline;
+  text-align: center;
+
+  margin-right: 8px;
+  color: var(--main-color);
+`;
