@@ -313,7 +313,7 @@ const Stream = () => {
           </PlatformLink>
         </StreamPlaceHolder>
       )}
-      {(links[room] === undefined || links[room][0] < 10) && !isLoading ? (
+      {links[room] === undefined && !isLoading ? (
         <StreamPlaceHolder>
           <StreamPlaceHolderText>
             No stream yet! <br />
