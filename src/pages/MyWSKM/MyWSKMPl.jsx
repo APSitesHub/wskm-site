@@ -24,6 +24,7 @@ import {
   PanelHideRightSwitch,
 } from './MyWSKMPanel/MyWSKMPanel.styled';
 import { MyWSKMPanelPl } from './MyWSKMPanel/MyWSKMPanelPl';
+import { buildPlatformLoginUrl, buildSchoolUrl } from './platformLinks';
 
 const monthly = [
   { name: 'Adam Nowak', points: 327 },
@@ -189,9 +190,7 @@ const MyWSKMPl = () => {
   const [user, setUser] = useState({});
   const [languageIndex, setLanguageIndex] = useState(0);
   const [language, setLanguage] = useState('');
-  const [platformLink, setPlatformLink] = useState(
-    `https://online.ap.education/`
-  );
+  const [platformLink, setPlatformLink] = useState(buildSchoolUrl('/'));
   const [isMultipleCourses, setIsMultipleCourses] = useState(false);
   axios.defaults.baseURL = 'https://ap-server-8qi1.onrender.com';
   const location = useLocation();
@@ -267,13 +266,7 @@ const MyWSKMPl = () => {
     getTimetable();
 
     const setIframeLinks = async () => {
-      const authLink = user.platformToken
-        ? `https://online.ap.education/Account/LoginByToken?token=${
-            user.platformToken
-          }&redirectUrl=${encodeURIComponent(
-            `https://online.ap.education/cabinet/student/lessons`
-          )}`
-        : `https://online.ap.education/cabinet/student/lessons`;
+      const authLink = buildPlatformLoginUrl(user.platformToken);
 
       setPlatformLink(link => (link = authLink));
     };
