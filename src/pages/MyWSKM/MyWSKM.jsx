@@ -102,6 +102,15 @@ const MyWSKM = () => {
     }
   };
 
+  const handleLogout = async () => {
+    localStorage.removeItem('mail');
+    localStorage.removeItem('userName');
+    localStorage.removeItem('login');
+    localStorage.removeItem('token');
+    setAuthToken('');
+    setIsUserLogged(false);
+  };
+
   return (
     <StreamSection>
       {!isUserLogged ? (
@@ -147,7 +156,12 @@ const MyWSKM = () => {
         </Formik>
       ) : (
         <>
-          <MyWSKMPanel user={user} link={platformLink} timetable={timetable} />
+          <MyWSKMPanel
+            user={user}
+            link={platformLink}
+            timetable={timetable}
+            handleLogout={handleLogout}
+          />
           <MyPlatform platformLink={platformLink} />
         </>
       )}

@@ -6,6 +6,7 @@ import { ReactComponent as CalendarIcon } from '../../../img/svg/myap/calendar.s
 import { ReactComponent as GuideIcon } from '../../../img/svg/myap/guide.svg';
 import { ReactComponent as PointerIcon } from '../../../img/svg/myap/pointer.svg';
 import { ReactComponent as ResetIcon } from '../../../img/svg/myap/reset.svg';
+import { ReactComponent as LogoutIcon } from '../../../img/svg/myap/myap/logout.svg';
 
 export const PanelBackdrop = styled.div`
   width: 100%;
@@ -232,6 +233,22 @@ export const GuideBtnIcon = styled(GuideIcon)`
   @media screen and (min-width: 768px) {
     height: 30px;
     width: 30px;
+  }
+
+  &.active {
+    color: #525266;
+  }
+`;
+
+export const LogoutBtnIcon = styled(LogoutIcon)`
+  height: 25px;
+  width: 20px;
+  user-select: none;
+  pointer-events: none;
+
+  @media screen and (min-width: 768px) {
+    height: 30px;
+    width: 25px;
   }
 
   &.active {
@@ -466,7 +483,8 @@ export const APPanelMarathonBtn = styled.button`
 
     transition: opacity 350ms linear;
 
-    background: linear-gradient(
+    background:
+      linear-gradient(
         322deg,
         var(--main-color) -5.61%,
         var(--secondary-color) 93.88%
