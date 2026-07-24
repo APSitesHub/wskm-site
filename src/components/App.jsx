@@ -4,36 +4,45 @@ import { Route, Routes } from 'react-router-dom';
 import { WindowedChat } from 'utils/Chat/ChatWindowed/WindowedChat';
 import { Loader } from './SharedLayout/Loaders/Loader';
 
-const Streams = lazy(() =>
-  import(/* webpackChunkName: "Streams page" */ '../pages/Streams/Streams')
+const Streams = lazy(
+  () =>
+    import(/* webpackChunkName: "Streams page" */ '../pages/Streams/Streams')
 );
 
-const Stream = lazy(() =>
-  import(/* webpackChunkName: "Stream page" */ '../pages/Streams/Stream/Stream')
+const Stream = lazy(
+  () =>
+    import(
+      /* webpackChunkName: "Stream page" */ '../pages/Streams/Stream/Stream'
+    )
 );
 
-const MyWSKM = lazy(() =>
-  import(/* webpackChunkName: "My WSKM Page" */ '../pages/MyWSKM/MyWSKM')
+const MyWSKM = lazy(
+  () => import(/* webpackChunkName: "My WSKM Page" */ '../pages/MyWSKM/MyWSKM')
 );
 
-const MyWSKMPl = lazy(() =>
-  import(/* webpackChunkName: "My WSKM Demo Page" */ '../pages/MyWSKM/MyWSKMPl')
+const MyWSKMPl = lazy(
+  () =>
+    import(
+      /* webpackChunkName: "My WSKM Demo Page" */ '../pages/MyWSKM/MyWSKMPl'
+    )
 );
 
-const UniUserAdminPanel = lazy(() =>
-  import(
-    /* webpackChunkName: "Polish University Users Admin Panel page" */ '../pages/Streams/UserAdminPanel/UniUserAdminPanel'
-  )
+const UniUserAdminPanel = lazy(
+  () =>
+    import(
+      /* webpackChunkName: "Polish University Users Admin Panel page" */ '../pages/Streams/UserAdminPanel/UniUserAdminPanel'
+    )
 );
 
-const PointsAdminPanel = lazy(() =>
-  import(
-    /* webpackChunkName: "Points Admin page" */ '../pages/Streams/AdminPanel/LessonResultsPanel'
-  )
+const PointsAdminPanel = lazy(
+  () =>
+    import(
+      /* webpackChunkName: "Points Admin page" */ '../pages/Streams/AdminPanel/LessonResultsPanel'
+    )
 );
 
-const NotFound = lazy(() =>
-  import(/* webpackChunkName: "Not Found" */ '../pages/NotFound/NotFound')
+const NotFound = lazy(
+  () => import(/* webpackChunkName: "Not Found" */ '../pages/NotFound/NotFound')
 );
 
 export const App = () => {
@@ -60,8 +69,8 @@ export const App = () => {
           <Route path="*" element={<NotFound />} noindex={true} />
           <Route path="/demo" element={<MyWSKMPl />} noindex={true} />
           <Route path="lesson" element={<Streams />} noindex={true}>
-            <Route path="cnc" element={<Stream />} noindex={true} />
-            <Route path="cnc-chat" element={<WindowedChat />} noindex={true} />
+            <Route path="en" element={<Stream />} noindex={true} />
+            <Route path="en-chat" element={<WindowedChat />} noindex={true} />
           </Route>
         </Routes>
       </Suspense>

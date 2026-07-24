@@ -1,8 +1,10 @@
 import { useEffect, useState } from 'react';
+import { LogoutConfirmation } from '../LogoutConfirmation/LogoutConfirmation';
 import { Timetable } from '../Timetable.jsx/Timetable';
 import {
   APPanel,
   APPanelBtn,
+  LogoutBtnIcon,
   PanelBackdrop,
   PanelHideLeftSwitch,
   PanelHideRightSwitch,
@@ -13,12 +15,15 @@ import {
 export const MyWSKMPanel = ({
   user,
   language,
+  handleLogout,
   timetable,
   isMultipleCourses,
 }) => {
   const [isBackdropShown, setIsBackdropShown] = useState(false);
   const [isTimetableShown, setIsTimetableShown] = useState(false);
   const [isButtonBoxShown, setIsButtonBoxShown] = useState(true);
+  const [isLogoutConfirmationOpen, setIsLogoutConfirmationOpen] =
+    useState(false);
 
   const toggleButtonBox = () => {
     hideBackdrop();
@@ -28,6 +33,7 @@ export const MyWSKMPanel = ({
   const hideBackdrop = () => {
     setIsBackdropShown(false);
     setIsTimetableShown(false);
+    setIsLogoutConfirmationOpen(false);
   };
 
   const toggleTimetable = () => {
@@ -37,6 +43,19 @@ export const MyWSKMPanel = ({
       setIsBackdropShown(isBackdropShown => (isBackdropShown = false));
 
     setIsTimetableShown(isTimetableShown => !isTimetableShown);
+  };
+
+  const toggleLogoutConfirmation = () => {
+    !isBackdropShown &&
+      !isTimetableShown &&
+      setIsBackdropShown(isBackdropShown => (isBackdropShown = true));
+    isBackdropShown &&
+      !isTimetableShown &&
+      setIsBackdropShown(isBackdropShown => (isBackdropShown = false));
+    setIsTimetableShown(false);
+    setIsLogoutConfirmationOpen(
+      isLogoutConfirmationOpen => !isLogoutConfirmationOpen
+    );
   };
 
   useEffect(() => {
@@ -72,8 +91,17 @@ export const MyWSKMPanel = ({
             />
           </APPanelBtn>
         )}
+        <APPanelBtn onClick={toggleLogoutConfirmation}>
+          <LogoutBtnIcon className={isLogoutConfirmationOpen && 'active'} />
+        </APPanelBtn>
       </APPanel>
       {isTimetableShown && <Timetable user={user} timetable={timetable} />}
+      {isLogoutConfirmationOpen && (
+        <LogoutConfirmation
+          handleLogout={handleLogout}
+          toggleLogoutConfirmation={toggleLogoutConfirmation}
+        />
+      )}
     </>
   );
 };

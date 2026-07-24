@@ -1,12 +1,15 @@
-import { useState } from 'react';
+import axios from 'axios';
+import { useEffect, useRef, useState } from 'react';
 import {
+  ClockIcon,
   StudentQuizBox,
   StudentQuizBoxInput,
   StudentQuizBoxInputNote,
   StudentQuizForm,
+  StudentQuizOptions,
   StudentQuizSubmitBtn,
+  StudentQuizTimer,
 } from './StudentInput.styled';
-import axios from 'axios';
 
 export const StudentInput = ({
   isInputOpen,
@@ -14,9 +17,40 @@ export const StudentInput = ({
   page,
   toggleQuiz,
   currentUser,
+  user,
   questionID,
+  timer,
 }) => {
   const [isValid, setIsValid] = useState(true);
+  const [currentTimer, setCurrentTimer] = useState(0);
+  const timerRef = useRef(null);
+
+  useEffect(() => {
+    if (isInputOpen) {
+      setCurrentTimer(timer);
+      timerRef.current = setInterval(() => {
+        setCurrentTimer(prev => {
+          if (prev <= 1) {
+            clearInterval(timerRef.current);
+            return 0;
+          }
+          return prev - 1;
+        });
+      }, 1000);
+    } else {
+      clearInterval(timerRef.current);
+      setCurrentTimer(0);
+    }
+    return () => clearInterval(timerRef.current);
+    // restart the countdown when a new question arrives while the widget is already open
+  }, [isInputOpen, timer, questionID]);
+
+  useEffect(() => {
+    if (currentTimer === 0 && isInputOpen) {
+      toggleQuiz();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [currentTimer]);
 
   const handleSubmit = async e => {
     if (!document.querySelector('#answer_input').value) {
@@ -39,68 +73,50 @@ export const StudentInput = ({
       page: page,
     });
 
-    await axios.post('/answers', {
+    console.log(43, 'answer:given', {
       answer: answer,
-      username: currentUser.name,
+      username: user?.name || currentUser.username,
       page: page,
       socketID: socket.id,
       questionID: questionID,
-      userID: currentUser.id,
+      userID: user?.id || currentUser.userID,
     });
+
+    try {
+      await axios.post('/answers', {
+        answer: answer,
+        username: user?.name || currentUser.username,
+        page: page,
+        socketID: socket.id,
+        questionID: questionID,
+        userID: user?.id || currentUser.userID,
+      });
+    } catch (error) {
+      console.error('Error submitting answer:', error);
+      try {
+        await axios.post('/answers-errors', {
+          error:
+            `Error message: ${error.message || 'No Error Message in Error Object'}; ` +
+            `Error code: ${error.code || null}; ` +
+            `Error status:  ${error.response?.status || null};`,
+          username: user?.name || currentUser.username,
+          page: page,
+        });
+      } catch (error) {
+        console.error('Error is persistent, cannot submit it:', error);
+      }
+    }
   };
 
-  //   const handleOnDrag = e => {
-  //     var pos1 = 0,
-  //       pos2 = 0,
-  //       pos3 = 0,
-  //       pos4 = 0;
-  //     if (document.getElementById('mydivheader')) {
-  //       /* if present, the header is where you move the DIV from:*/
-  //       document.getElementById('mydivheader').onmousedown = dragMouseDown;
-  //     } else {
-  //       /* otherwise, move the DIV from anywhere inside the DIV:*/
-  //       e.target.onmousedown = dragMouseDown;
-  //     }
-
-  //     function dragMouseDown(e) {
-  //       e = e || window.event;
-  //       e.preventDefault();
-  //       // get the mouse cursor position at startup:
-  //       pos3 = e.clientX;
-  //       pos4 = e.clientY;
-  //       document.onmouseup = closeDragElement;
-  //       // call a function whenever the cursor moves:
-  //       document.onmousemove = elementDrag;
-  //     }
-
-  //     function elementDrag(e) {
-  //       e = e || window.event;
-  //       e.preventDefault();
-  //       // calculate the new cursor position:
-  //       pos1 = pos3 - e.clientX;
-  //       pos2 = pos4 - e.clientY;
-  //       pos3 = e.clientX;
-  //       pos4 = e.clientY;
-  //       // set the element's new position:
-  //       e.target.style.top = e.target.offsetTop - pos2 + 'px';
-  //       e.target.style.left = e.target.offsetLeft - pos1 + 'px';
-  //     }
-
-  //     function closeDragElement() {
-  //       /* stop moving when mouse button is released:*/
-  //       document.onmouseup = null;
-  //       document.onmousemove = null;
-  //     }
-  //   };
-
   return (
-    <StudentQuizBox
-      className={isInputOpen ? 'shown' : 'hidden'}
-      //   draggable={true}
-      //   onDrag={handleOnDrag}
-      //   onTouchMove={handleOnDrag}
-    >
+    <StudentQuizBox className={isInputOpen ? 'shown' : 'hidden'}>
       <StudentQuizForm>
+        <StudentQuizOptions>
+          <StudentQuizTimer>
+            <ClockIcon />
+            {currentTimer}
+          </StudentQuizTimer>
+        </StudentQuizOptions>
         <StudentQuizBoxInput
           type="text"
           id="answer_input"

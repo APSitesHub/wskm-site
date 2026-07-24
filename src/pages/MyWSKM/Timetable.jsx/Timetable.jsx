@@ -23,7 +23,7 @@ import {
 
 export const Timetable = ({ user, timetable }) => {
   const personalTimetable = useMemo(
-    () => timetable.find(timeline => '85683' === timeline.marathon),
+    () => timetable.find(timeline => '127428' === timeline.marathon),
     [timetable]
   );
 
@@ -32,8 +32,8 @@ export const Timetable = ({ user, timetable }) => {
   const getLink = () => {
     const baseStreamUrl = 'https://wskm.ap.education/lesson/';
 
-    return personalTimetable.marathon === '85683'
-      ? baseStreamUrl + 'cnc'
+    return personalTimetable.marathon === '127428'
+      ? baseStreamUrl + 'en'
       : baseStreamUrl + 'prep';
   };
 
@@ -61,9 +61,7 @@ export const Timetable = ({ user, timetable }) => {
         <TimetableBody>
           <TimetableWebinars>
             <TimetableWebinarsHead>
-              <TimetableLessonType>
-                CNC and Industrial Automation
-              </TimetableLessonType>
+              <TimetableLessonType>English Course</TimetableLessonType>
               <TimetableLessonLink href={link} target="_blank">
                 <TimetableLessonLinkText>Go to lesson</TimetableLessonLinkText>
               </TimetableLessonLink>

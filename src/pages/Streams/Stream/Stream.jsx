@@ -47,7 +47,9 @@ const Stream = () => {
   const [isQuizInputOpen, setIsQuizInputOpen] = useState(false);
   const [isQuizOptionsOpen, setIsQuizOptionsOpen] = useState(false);
   const [isQuizTrueFalseOpen, setIsQuizTrueFalseOpen] = useState(false);
-  const [links, isLoading, currentUser] = useOutletContext();
+  const [links, isLoading, currentUser, user] = useOutletContext();
+  const [optionsCount, setOptionsCount] = useState(0);
+  const [quizTimer, setQuizTimer] = useState(15);
   const chatEl = useRef();
   // eslint-disable-next-line
   const [chatWidth, chatHeight] = useSize(chatEl);
@@ -183,20 +185,24 @@ const Stream = () => {
     // open quizzes on event
     socketRef.current.on('question:input', data => {
       if (data.page === room) {
-        setIsQuizInputOpen(true);
         questionID.current = data.question;
+        if (data.timer) setQuizTimer(data.timer);
+        setIsQuizInputOpen(true);
       }
     });
     socketRef.current.on('question:options', data => {
       if (data.page === room) {
-        setIsQuizOptionsOpen(true);
         questionID.current = data.question;
+        setOptionsCount(data.optionsCount);
+        if (data.timer) setQuizTimer(data.timer);
+        setIsQuizOptionsOpen(true);
       }
     });
     socketRef.current.on('question:trueFalse', data => {
       if (data.page === room) {
-        setIsQuizTrueFalseOpen(true);
         questionID.current = data.question;
+        if (data.timer) setQuizTimer(data.timer);
+        setIsQuizTrueFalseOpen(true);
       }
     });
 
@@ -613,7 +619,9 @@ const Stream = () => {
               toggleQuiz={toggleQuizInput}
               page={room}
               currentUser={currentUser}
+              user={user}
               questionID={questionID.current}
+              timer={quizTimer}
             />
 
             <StudentOptions
@@ -622,7 +630,10 @@ const Stream = () => {
               toggleQuiz={toggleQuizOptions}
               page={room}
               currentUser={currentUser}
+              user={user}
               questionID={questionID.current}
+              optionsCount={optionsCount}
+              timer={quizTimer}
             />
 
             <StudentTrueFalse
@@ -631,7 +642,9 @@ const Stream = () => {
               toggleQuiz={toggleQuizTrueFalse}
               page={room}
               currentUser={currentUser}
+              user={user}
               questionID={questionID.current}
+              timer={quizTimer}
             />
           </StreamSection>
           {width >= height && (

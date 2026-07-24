@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
+import { buildSchoolUrl } from '../platformLinks';
 import {
   BackgroundVideo,
   MyAPBackground,
@@ -9,13 +10,13 @@ import {
 } from './MyPlatform.styled';
 
 export const TestPlatform = ({ platformLink }) => {
-  const [src, setSrc] = useState('https://online.ap.education/school/');
+  const [src, setSrc] = useState(buildSchoolUrl('/school/'));
   const location = useLocation().search.slice(1);
 
   useEffect(() => {
     const setIframeSRC = () => {
       !platformLink && !location
-        ? setSrc('https://online.ap.education/school/')
+        ? setSrc(buildSchoolUrl('/school/'))
         : !location
         ? setSrc(platformLink)
         : setSrc(location);

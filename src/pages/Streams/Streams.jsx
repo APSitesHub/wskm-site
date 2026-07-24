@@ -31,6 +31,7 @@ const setAuthToken = token => {
 const Streams = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [links, setLinks] = useState({});
+  const [user, setUser] = useState({});
   const [currentUser, setCurrentUser] = useState({});
   const [isUserLogged, setIsUserLogged] = useState(false);
   const [isUserInfoIncorrect, setIsUserInfoIncorrect] = useState(false);
@@ -86,7 +87,8 @@ const Streams = () => {
       console.log(response);
       setAuthToken(response.data.token);
       setIsUserLogged(isLogged => (isLogged = true));
-      setCurrentUser(currentUser => (currentUser = response.data.user));
+      setCurrentUser(response.data.user);
+      setUser(response.data.user);
       localStorage.setItem('userID', nanoid(8));
       localStorage.setItem('mail', values.mail);
       localStorage.setItem('userName', response.data.user.name);
@@ -120,6 +122,7 @@ const Streams = () => {
           mail: localStorage.getItem('mail'),
         });
         setCurrentUser(currentUser => (currentUser = res.data.user));
+        setUser(user => (user = res.data.user));
         setIsUserLogged(isLogged => (isLogged = true));
         const id = nanoid(8);
         if (!localStorage.getItem('userID')) {
@@ -185,7 +188,7 @@ const Streams = () => {
             </LoginForm>
           </Formik>
         ) : (
-          <Outlet context={[links, isLoading, currentUser]} />
+          <Outlet context={[links, isLoading, currentUser, user]} />
         )}
 
         {isLoading && (

@@ -19,14 +19,13 @@ import * as yup from 'yup';
 import { MyPlatform } from './My Platform/MyPlatform';
 import { MyWSKMPanel } from './MyWSKMPanel/MyWSKMPanel';
 import { LoginErrorNote } from './MyWSKMPanel/MyWSKMPanel.styled';
+import { buildPlatformLoginUrl, buildSchoolUrl } from './platformLinks';
 
 const MyWSKM = () => {
   const [isUserLogged, setIsUserLogged] = useState(false);
   const [timetable, setTimetable] = useState({});
   const [user, setUser] = useState({});
-  const [platformLink, setPlatformLink] = useState(
-    `https://online.ap.education/`
-  );
+  const [platformLink, setPlatformLink] = useState(buildSchoolUrl('/'));
   const [isUserInfoIncorrect, setIsUserInfoIncorrect] = useState(false);
 
   axios.defaults.baseURL = 'https://ap-server-8qi1.onrender.com';
@@ -62,13 +61,7 @@ const MyWSKM = () => {
     getTimetable();
 
     const setIframeLinks = async () => {
-      const authLink = user.platformToken
-        ? `https://online.ap.education/Account/LoginByToken?token=${
-            user.platformToken
-          }&redirectUrl=${encodeURIComponent(
-            `https://online.ap.education/cabinet/student/lessons`
-          )}`
-        : `https://online.ap.education/cabinet/student/lessons`;
+      const authLink = buildPlatformLoginUrl(user.platformToken);
 
       setPlatformLink(link => (link = authLink));
     };
@@ -107,6 +100,15 @@ const MyWSKM = () => {
       error.response.status === 401 && setIsUserInfoIncorrect(true);
       console.error(error);
     }
+  };
+
+  const handleLogout = async () => {
+    localStorage.removeItem('mail');
+    localStorage.removeItem('userName');
+    localStorage.removeItem('login');
+    localStorage.removeItem('token');
+    setAuthToken('');
+    setIsUserLogged(false);
   };
 
   return (
@@ -154,7 +156,12 @@ const MyWSKM = () => {
         </Formik>
       ) : (
         <>
-          <MyWSKMPanel user={user} link={platformLink} timetable={timetable} />
+          <MyWSKMPanel
+            user={user}
+            link={platformLink}
+            timetable={timetable}
+            handleLogout={handleLogout}
+          />
           <MyPlatform platformLink={platformLink} />
         </>
       )}
