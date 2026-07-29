@@ -32,9 +32,7 @@ export const Timetable = ({ user, timetable }) => {
   const getLink = () => {
     const baseStreamUrl = 'https://wskm.trans-continental.eu/lesson/';
 
-    return personalTimetable.marathon === '127428'
-      ? baseStreamUrl + 'en'
-      : baseStreamUrl + 'prep';
+    return baseStreamUrl + 'en' + user.group || '1';
   };
 
   const link = getLink();

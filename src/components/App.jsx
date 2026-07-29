@@ -69,8 +69,12 @@ export const App = () => {
           <Route path="*" element={<NotFound />} noindex={true} />
           <Route path="/demo" element={<MyWSKMPl />} noindex={true} />
           <Route path="lesson" element={<Streams />} noindex={true}>
-            <Route path="en" element={<Stream />} noindex={true} />
-            <Route path="en-chat" element={<WindowedChat />} noindex={true} />
+            <Route path="en1" element={<Stream />} noindex={true} />
+            <Route path="en1-chat" element={<WindowedChat />} noindex={true} />
+            <Route path="en2" element={<Stream />} noindex={true} />
+            <Route path="en2-chat" element={<WindowedChat />} noindex={true} />
+            <Route path="en3" element={<Stream />} noindex={true} />
+            <Route path="en3-chat" element={<WindowedChat />} noindex={true} />
           </Route>
         </Routes>
       </Suspense>
