@@ -23,12 +23,13 @@ import { buildPlatformLoginUrl, buildSchoolUrl } from './platformLinks';
 
 const MyWSKM = () => {
   const [isUserLogged, setIsUserLogged] = useState(false);
-  const [timetable, setTimetable] = useState({});
+  const [timetable, setTimetable] = useState([]);
   const [user, setUser] = useState({});
   const [platformLink, setPlatformLink] = useState(buildSchoolUrl('/'));
   const [isUserInfoIncorrect, setIsUserInfoIncorrect] = useState(false);
 
   axios.defaults.baseURL = 'https://ap-server-8qi1.onrender.com';
+  // axios.defaults.baseURL = 'http://localhost:5000';
 
   useEffect(() => {
     document.title = 'My WSKM | WSKM';
@@ -36,8 +37,9 @@ const MyWSKM = () => {
     const refreshToken = async () => {
       console.log('token refresher');
       try {
-        const res = await axios.post('/uniusers/refresh', {
+        const res = await axios.post('/wskm-users/refresh', {
           mail: localStorage.getItem('mail'),
+          page: 'main',
         });
         setIsUserLogged(isLogged => (isLogged = true));
         console.log(73, res.data.user.platformToken);
@@ -51,7 +53,7 @@ const MyWSKM = () => {
     const getTimetable = async () => {
       console.log('timetable getter');
       try {
-        const res = await axios.get('/unitimetable');
+        const res = await axios.get('/wskm-timetable');
         console.log(res);
         setTimetable(timetable => (timetable = res.data));
       } catch (error) {
@@ -87,7 +89,10 @@ const MyWSKM = () => {
     values.mail = values.mail.toLowerCase().trim().trimStart();
     values.password = values.password.trim().trimStart();
     try {
-      const response = await axios.post('/uniusers/login', values);
+      const response = await axios.post('/wskm-users/login', {
+        ...values,
+        page: 'main',
+      });
       console.log(response);
 
       setAuthToken(response.data.token);

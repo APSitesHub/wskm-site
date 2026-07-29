@@ -421,7 +421,7 @@ export const NoLinksChosen = styled.h3`
 `;
 
 export const AdminButtonBox = styled(ButtonBox)`
-  top: 16px;
+  top: 22px;
   background-color: var(--secondary-color);
   padding: 8px;
   border: 1px solid var(--main-color);
@@ -438,7 +438,7 @@ export const AdminButtonBox = styled(ButtonBox)`
 `;
 
 export const AdminButtonBoxSwitch = styled(BoxHideSwitch)`
-  top: 114px;
+  top: 47px;
   width: 18px;
   filter: drop-shadow(2px 2px 3px rgba(0, 0, 0, 0.4));
 

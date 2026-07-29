@@ -1,4 +1,4 @@
-const SCHOOL_ORIGIN = 'https://online.ap.education';
+const SCHOOL_ORIGIN = 'https://online.trans-continental.eu';
 
 export const STUDENT_LESSONS_PATH = '/cabinet/student/lessons';
 

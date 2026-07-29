@@ -34,10 +34,10 @@ const UniUserAdminPanel = lazy(
     )
 );
 
-const PointsAdminPanel = lazy(
+const TimeTableAdminPanel = lazy(
   () =>
     import(
-      /* webpackChunkName: "Points Admin page" */ '../pages/Streams/AdminPanel/LessonResultsPanel'
+      /* webpackChunkName: "Timetable Admin page" */ '../pages/Streams/TimeTableAdminPanel/TimeTableAdminPanel'
     )
 );
 
@@ -57,13 +57,13 @@ export const App = () => {
         <Routes noindex={true}>
           <Route index path="/" element={<MyWSKM />} noindex={true}></Route>
           <Route
-            path="admin"
-            element={<UniUserAdminPanel uni={'WSKM'} lang={'pl'} />}
+            path="users"
+            element={<UniUserAdminPanel uni={'WSKM'} lang={'en'} />}
             noindex={true}
           />
           <Route
-            path="admin-points"
-            element={<PointsAdminPanel />}
+            path="timetable"
+            element={<TimeTableAdminPanel />}
             noindex={true}
           />
           <Route path="*" element={<NotFound />} noindex={true} />

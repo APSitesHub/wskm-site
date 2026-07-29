@@ -82,7 +82,10 @@ const Streams = () => {
     values.mail = values.mail.toLowerCase().trim().trimStart();
     values.password = values.password.trim().trimStart();
     try {
-      const response = await axios.post('/uniusers/login/lesson', values);
+      const response = await axios.post('/wskm-users/login', {
+        ...values,
+        page: 'lesson',
+      });
       console.log(values);
       console.log(response);
       setAuthToken(response.data.token);
@@ -118,8 +121,9 @@ const Streams = () => {
     const refreshToken = async () => {
       console.log('token refresher');
       try {
-        const res = await axios.post('/uniusers/refresh/lesson', {
+        const res = await axios.post('/wskm-users/refresh', {
           mail: localStorage.getItem('mail'),
+          page: 'lesson',
         });
         setCurrentUser(currentUser => (currentUser = res.data.user));
         setUser(user => (user = res.data.user));

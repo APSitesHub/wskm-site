@@ -23,14 +23,14 @@ import {
 
 export const Timetable = ({ user, timetable }) => {
   const personalTimetable = useMemo(
-    () => timetable.find(timeline => '127428' === timeline.marathon),
-    [timetable]
+    () => timetable.find(t => t.group === (user.group || '1')),
+    [timetable, user.group]
   );
 
   console.log('personalTimetable', personalTimetable);
 
   const getLink = () => {
-    const baseStreamUrl = 'https://wskm.ap.education/lesson/';
+    const baseStreamUrl = 'https://wskm.trans-continental.eu/lesson/';
 
     return personalTimetable.marathon === '127428'
       ? baseStreamUrl + 'en'
@@ -79,11 +79,6 @@ export const Timetable = ({ user, timetable }) => {
               </thead>
               <tbody>
                 {personalTimetable.schedule
-                  .filter(
-                    lesson =>
-                      lesson.type.toLowerCase() === 'webinar' ||
-                      lesson.type.toLowerCase() === 'webinar, repeat'
-                  )
                   .sort((a, b) => a.day - b.day)
                   .map((lesson, i) => (
                     <TimetableDaysItem

@@ -38,9 +38,12 @@ export const MyWSKMPanel = ({
 
   const toggleTimetable = () => {
     !isBackdropShown &&
+      !isLogoutConfirmationOpen &&
       setIsBackdropShown(isBackdropShown => (isBackdropShown = true));
     isBackdropShown &&
+      !isLogoutConfirmationOpen &&
       setIsBackdropShown(isBackdropShown => (isBackdropShown = false));
+    setIsLogoutConfirmationOpen(isLogoutConfirmationOpen => false);
 
     setIsTimetableShown(isTimetableShown => !isTimetableShown);
   };
