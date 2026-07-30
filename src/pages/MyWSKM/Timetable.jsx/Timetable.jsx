@@ -32,7 +32,7 @@ export const Timetable = ({ user, timetable }) => {
   const getLink = () => {
     const baseStreamUrl = 'https://wskm.trans-continental.eu/lesson/';
 
-    return baseStreamUrl + 'en' + user.group || '1';
+    return baseStreamUrl + 'en' + (user.group || '1');
   };
 
   const link = getLink();

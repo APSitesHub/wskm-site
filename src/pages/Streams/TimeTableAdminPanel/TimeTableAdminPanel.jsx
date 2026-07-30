@@ -8,10 +8,19 @@ import {
   LoginLogo,
 } from 'components/Stream/Stream.styled';
 import { Formik } from 'formik';
-import { AdminFormBtn, LoginForm } from '../AdminPanel/AdminPanel.styled';
 import { LoginErrorNote } from 'pages/MyWSKM/MyWSKMPanel/MyWSKMPanel.styled';
 import { useEffect, useState } from 'react';
 import * as yup from 'yup';
+import { AdminFormBtn, LoginForm } from '../AdminPanel/AdminPanel.styled';
+import {
+  PanelHeader,
+  SubmitFormBtn,
+} from '../AdminPanel/CourseAdminPanel.styled';
+import SideAdminMenu from '../AdminPanel/SideAdminMenu';
+import {
+  AdminButtonBoxSwitch,
+  FormField,
+} from '../AdminPanel/TeacherAdminPanel.styled';
 import {
   AdminInput,
   AdminInputNote,
@@ -31,15 +40,6 @@ import {
   TimetableDeleteButton,
 } from './TimeTableAdminPanel.styled';
 import { TimeTableEditForm } from './TimeTableEditForm/TimeTableEditForm';
-import {
-  PanelHeader,
-  SubmitFormBtn,
-} from '../AdminPanel/CourseAdminPanel.styled';
-import {
-  AdminButtonBoxSwitch,
-  FormField,
-} from '../AdminPanel/TeacherAdminPanel.styled';
-import SideAdminMenu from '../AdminPanel/SideAdminMenu';
 
 axios.defaults.baseURL = 'https://ap-server-8qi1.onrender.com';
 // axios.defaults.baseURL = 'http://localhost:5000';
@@ -64,31 +64,41 @@ const TimeTableAdminPanel = () => {
     document.title = 'Timetable | WSKM';
 
     const refreshToken = async () => {
+      const adminLogin = localStorage.getItem('adminLogin');
+      const adminToken = localStorage.getItem('adminToken');
+      if (!adminLogin || !adminToken) return;
+
       try {
-        if (localStorage.getItem('isAdmin')) {
-          const res = await axios.post('/admins/refresh/wskm/', {});
-          console.log(res);
-          setIsUserAdmin(isAdmin => (isAdmin = true));
-        }
+        const res = await axios.post('admins/refresh/wskm/', {
+          login: adminLogin,
+          token: adminToken,
+        });
+        setAuthToken(res.data.newToken);
+        setIsUserAdmin(true);
       } catch (error) {
+        localStorage.removeItem('adminLogin');
+        localStorage.removeItem('adminToken');
         console.log(error);
       }
     };
     refreshToken();
+  }, []);
 
+  useEffect(() => {
+    if (!isUserAdmin) return;
     const getLessons = async () => {
       try {
-        if (isUserAdmin) {
-          const response = await axios.get('/wskm-timetable/');
-          console.log(response);
-          setLessons(lessons => (lessons = [...response.data]));
-        }
+        const response = await axios.get('/wskm-timetable/');
+        console.log(response);
+        setLessons(lessons => (lessons = [...response.data]));
       } catch (error) {
         console.error(error);
       }
     };
     getLessons();
+  }, [isUserAdmin]);
 
+  useEffect(() => {
     const onEscapeClose = event => {
       if (event.code === 'Escape' && isEditFormOpen) {
         closeEditForm();
@@ -100,7 +110,7 @@ const TimeTableAdminPanel = () => {
     return () => {
       window.removeEventListener('keydown', onEscapeClose);
     };
-  }, [isUserAdmin, isLoading, isEditFormOpen]);
+  }, [isEditFormOpen]);
 
   const DAYS = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
 
@@ -124,9 +134,11 @@ const TimeTableAdminPanel = () => {
       const response = await axios.post('/admins/login/wskm', values);
       setAuthToken(response.data.token);
       setIsUserAdmin(isAdmin => (isAdmin = true));
-      localStorage.setItem('isAdmin', true);
+      localStorage.setItem('adminLogin', values.login);
+      localStorage.setItem('adminToken', response.data.token);
       resetForm();
     } catch (error) {
+      error.response.status === 401 && setIsUserInfoIncorrect(true);
       console.error(error);
     } finally {
       setIsLoading(isLoading => (isLoading = false));

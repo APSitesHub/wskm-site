@@ -12,15 +12,15 @@ import { LoginErrorNote } from 'pages/MyWSKM/MyWSKMPanel/MyWSKMPanel.styled';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import * as yup from 'yup';
 import { AdminFormBtn, LoginForm } from '../AdminPanel/AdminPanel.styled';
+import {
+  PanelHeader,
+  SubmitFormBtn,
+} from '../AdminPanel/CourseAdminPanel.styled';
 import SideAdminMenu from '../AdminPanel/SideAdminMenu';
 import {
   AdminButtonBoxSwitch,
   FormField,
 } from '../AdminPanel/TeacherAdminPanel.styled';
-import {
-  PanelHeader,
-  SubmitFormBtn,
-} from '../AdminPanel/CourseAdminPanel.styled';
 import {
   AdminInput,
   AdminInputNote,
@@ -134,17 +134,28 @@ const UniUserAdminPanel = ({ uni, lang = 'pl' }) => {
     document.title = 'Students | WSKM';
 
     const refreshToken = async () => {
+      const adminLogin = localStorage.getItem('adminLogin');
+      const adminToken = localStorage.getItem('adminToken');
+      if (!adminLogin || !adminToken) return;
+
       try {
-        if (localStorage.getItem('isAdmin')) {
-          const res = await axios.post('admins/refresh/wskm/', {});
-          setAuthToken(res.data.newToken);
-          setIsUserAdmin(isAdmin => (isAdmin = true));
-        }
+        const res = await axios.post('admins/refresh/wskm/', {
+          login: adminLogin,
+          token: adminToken,
+        });
+        setAuthToken(res.data.newToken);
+        setIsUserAdmin(true);
       } catch (error) {
+        localStorage.removeItem('adminLogin');
+        localStorage.removeItem('adminToken');
         console.log(error);
       }
     };
     refreshToken();
+  }, []);
+
+  useEffect(() => {
+    if (!isUserAdmin) return;
 
     const getUsers = async () => {
       try {
@@ -164,8 +175,11 @@ const UniUserAdminPanel = ({ uni, lang = 'pl' }) => {
         console.error(error);
       }
     };
-    getUsers();
 
+    getUsers();
+  }, [isUserAdmin]);
+
+  useEffect(() => {
     const onEscapeClose = event => {
       if (event.code === 'Escape') {
         closeEditForm();
@@ -177,7 +191,7 @@ const UniUserAdminPanel = ({ uni, lang = 'pl' }) => {
     return () => {
       window.removeEventListener('keydown', onEscapeClose);
     };
-  }, [isUserAdmin, isEditFormOpen, isLoading, uni]);
+  }, [isEditFormOpen]);
 
   const initialLoginValues = {
     login: '',
@@ -203,7 +217,8 @@ const UniUserAdminPanel = ({ uni, lang = 'pl' }) => {
       const response = await axios.post('/admins/login/wskm', values);
       setAuthToken(response.data.token);
       setIsUserAdmin(isAdmin => (isAdmin = true));
-      localStorage.setItem('isAdmin', true);
+      localStorage.setItem('adminLogin', values.login);
+      localStorage.setItem('adminToken', response.data.token);
       resetForm();
     } catch (error) {
       error.response.status === 401 && setIsUserInfoIncorrect(true);
